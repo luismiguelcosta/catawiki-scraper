@@ -35,11 +35,12 @@ categories.each do |category_url|
     filtered_urls << element.attribute('href')
   end
 
-  html_doc.search(".be-lot__price").each do |bet|
-    current_bet_value = bet.text
-    current_bet = current_bet_value.match(/([0-9]+,[0-9]{3})/)
-    puts current_bet
-  end
+  # html_doc.search(".be-lot__price").each do |bet|
+  #   current_bet_value = bet.text
+  #   # puts current_bet_value
+  #   current_bet = current_bet_value.match(/([0-9]+,[0-9]{3})/)
+  #   puts current_bet
+  # end
 
   filtered_urls.each do |filtered_url|
     html_file = open(filtered_url).read

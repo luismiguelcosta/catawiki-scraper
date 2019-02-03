@@ -29,18 +29,21 @@ categories.each do |category_url|
   child_url = category_url
   url = "#{mother_url}/#{child_url}"
   html_file = open(url).read
+  sleep(1)
   html_doc = Nokogiri::HTML(html_file)
+  sleep(1)
 
   html_doc.search(".c-card").each do |element|
     filtered_urls << element.attribute('href')
   end
 
-  # html_doc.search(".be-lot__price").each do |bet|
-  #   current_bet_value = bet.text
-  #   # puts current_bet_value
-  #   current_bet = current_bet_value.match(/([0-9]+,[0-9]{3})/)
-  #   puts current_bet
-  # end
+  html_doc.search(".be-lot__price").each do |bet|
+    # puts bet.text
+    current_bet_value = bet.text
+    # puts current_bet_value
+    current_bet = current_bet_value.match(/([0-9]+,[0-9]{3})/)
+    # puts current_bet
+  end
 
   filtered_urls.each do |filtered_url|
     html_file = open(filtered_url).read

@@ -34,16 +34,10 @@ categories.each do |category_url|
   sleep(1)
 
   html_doc.search(".c-card").each do |element|
-    filtered_urls << element.attribute('href')
+    filtered_urls << element.attribute('href').to_s
   end
 
-  html_doc.search(".be-lot__price").each do |bet|
-    # puts bet.text
-    current_bet_value = bet.text
-    # puts current_bet_value
-    current_bet = current_bet_value.match(/([0-9]+,[0-9]{3})/)
-    # puts current_bet
-  end
+  puts "The following auctions have no reserve price:"
 
   filtered_urls.each do |filtered_url|
     html_file = open(filtered_url).read
@@ -51,8 +45,20 @@ categories.each do |category_url|
 
     html_doc.search(".cw-currency-amount-eur").each do |estimated_price|
       cost_interval = estimated_price.text
-      value = cost_interval.match(/([0-9]+,[0-9]{3})/)
-      puts value
+      @value = cost_interval.match(/([0-9]+,[0-9]{3})/)
+      # puts value
+    end
+
+    html_doc.search(".bid_amount").each do |bid|
+      # puts bid.text
+      current_bid_value = bid.text
+      # puts current_bid_value
+      @current_bid = current_bid_value.match(/([0-9]+,[0-9]{3})/)
+      # puts current_bid
+    end
+
+    if html_doc.at_css(".cw-currency-amount-eur")
+      puts " - value: #{@value} | current bid: #{@current_bid}"
     end
   end
 end

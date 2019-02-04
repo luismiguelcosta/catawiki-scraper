@@ -39,8 +39,6 @@ categories.each do |category_url|
 
   puts "The following auctions have no reserve price:"
 
-  price_sintax =
-
   filtered_urls.each do |filtered_url|
     html_file = open(filtered_url).read
     html_doc = Nokogiri::HTML(html_file)

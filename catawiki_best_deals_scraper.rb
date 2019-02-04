@@ -39,26 +39,28 @@ categories.each do |category_url|
 
   puts "The following auctions have no reserve price:"
 
+  price_sintax =
+
   filtered_urls.each do |filtered_url|
     html_file = open(filtered_url).read
     html_doc = Nokogiri::HTML(html_file)
 
     html_doc.search(".cw-currency-amount-eur").each do |estimated_price|
       cost_interval = estimated_price.text
-      @value = cost_interval.match(/([0-9]+,[0-9]{3})/)
+      @value = cost_interval.match(/([0-9]+,[0-9]{3})|([0-9]{3})/)
       # puts value
     end
 
-    html_doc.search(".bid_amount").each do |bid|
+    html_doc.search(".amount").each do |bid|
       # puts bid.text
       current_bid_value = bid.text
       # puts current_bid_value
-      @current_bid = current_bid_value.match(/([0-9]+,[0-9]{3})/)
+      @current_bid = current_bid_value.match(/([0-9]+,[0-9]{3})|([0-9]{3})/)
       # puts current_bid
     end
 
     if html_doc.at_css(".cw-currency-amount-eur")
-      puts " - value: #{@value} | current bid: #{@current_bid}"
+      puts " - value: #{@value} | next minimum bid: #{@current_bid}"
     end
   end
 end
